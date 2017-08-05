@@ -11,6 +11,11 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then(user => done(null, user));
+});
+
 const getOrSaveUser = (accessToken, refreshToken, profile, done) => {
   User.findOne({ googleId: profile.id }).then(existingUser => {
     if (existingUser) {
