@@ -11,22 +11,22 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then(user => done(null, user));
+passport.deserializeUser(async (id, done) => {
+  let user = await User.findById(id);
+  done(null, user);
 });
 
-const getOrSaveUser = (accessToken, refreshToken, profile, done) => {
-  User.findOne({ googleId: profile.id }).then(existingUser => {
-    if (existingUser) {
-      // If there is already a user, find that user and send it along
-      done(null, existingUser);
-    } else {
-      // Otherwise, create a new user and send that user along
-      new User({ googleId: profile.id }).save()
-        .then(user => done(null, user));
-    }
-  });
+const getOrSaveUser = async (accessToken, refreshToken, profile, done) => {
+  let existingUser = await User.findOne({ googleId: profile.id });
+
+  if (existingUser) {
+    // If there is already a user, find that user and send it along
+    return done(null, existingUser);
+  }
+
+  // Otherwise, create a new user and send that user along
+  let user = await new User({ googleId: profile.id }).save();
+  done(null, user);
 };
 
 passport.use(
