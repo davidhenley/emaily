@@ -3,20 +3,21 @@ const router = express.Router();
 
 const passport = require('passport');
 
-// Attempt to get code from Google OAuth
 router.get('/auth/google', passport.authenticate('google', {
+  // Attempt to get code from Google OAuth
   scope: ['profile', 'email']
 }));
 
-// Takes the code from the url and fetches the user profile from Google
-// Then redirects to the /surveys route
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+  // Takes the code from the url and fetches the user profile from Google
+  // Then redirects to the /surveys route
   res.redirect('/surveys');
 });
 
 router.get('/api/logout', (req, res) => {
+  // Logout user (remove cookie) and redirect to root route
   req.logout();
-  res.send(req.user);
+  res.redirect('/');
 });
 
 router.get('/api/current_user', (req, res) => {
