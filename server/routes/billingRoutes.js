@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const requireLogin = require('../middlewares/requireLogin');
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
-router.post('/api/stripe', async (req, res) => {
-  // Make sure user is logged in (Temp fix until middleware)
-  if (!req.user) {
-    return res.status(401).send({ error: 'You must be logged in' });
-  }
-
+router.post('/api/stripe', requireLogin, async (req, res) => {
   // Create charge on Stripe's API
   let charge = await stripe.charges.create({
     amount: 500,
