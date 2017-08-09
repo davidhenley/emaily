@@ -5,7 +5,8 @@ const passport = require('passport');
 
 router.get('/auth/google', passport.authenticate('google', {
   // Attempt to get code from Google OAuth
-  scope: ['profile', 'email']
+  scope: ['profile', 'email'],
+  prompt: 'select_account'
 }));
 
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
