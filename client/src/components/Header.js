@@ -5,15 +5,17 @@ import Payments from './Payments';
 
 class Header extends Component {
   renderContent() {
-    switch (this.props.auth) {
+    const { auth } = this.props;
+    switch (auth) {
       case null:
         return;
       case false:
         return <li><a href="/auth/google">Login with Google</a></li>;
       default:
         return [
-          <li key={1}><Payments /></li>,
-          <li key={2}><a href="/api/logout">Logout</a></li>
+          <li key="payBtn"><Payments /></li>,
+          <li key="credits" style={{ margin: '0px 10px' }}>Credits: {auth.credits}</li>,
+          <li key="logout"><a href="/api/logout">Logout</a></li>
         ];
     }
   }
