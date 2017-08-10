@@ -18,10 +18,8 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        {/* BrowserRouter can only have one child */}
         <BrowserRouter>
           <div>
-            {/* Show Header regardless of route */}
             <Header />
             <Route exact path="/" component={Landing} />
             <Route exact path="/surveys" component={Dashboard} />
