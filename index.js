@@ -8,6 +8,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const authRoutes = require('./routes/authRoutes');
 const billingRoutes = require('./routes/billingRoutes');
+const surveyRoutes = require('./routes/billingRoutes');
 require('./models/User');
 require('./services/passport');
 
@@ -29,6 +30,7 @@ app.use(passport.session());
 
 app.use(authRoutes);
 app.use(billingRoutes);
+app.use(surveyRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   // Make sure express will serve up production assets
