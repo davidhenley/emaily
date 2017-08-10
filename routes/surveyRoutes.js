@@ -17,4 +17,8 @@ router.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
   });
 });
 
+router.get('/api/surveys', (req, res) => {
+  res.send({ message: 'Survey Route' });
+});
+
 module.exports = router;

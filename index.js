@@ -6,12 +6,12 @@ const keys = require('./config/keys');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-const authRoutes = require('./routes/authRoutes');
-const billingRoutes = require('./routes/billingRoutes');
-const surveyRoutes = require('./routes/billingRoutes');
 require('./models/User');
 require('./models/Survey');
 require('./services/passport');
+const authRoutes = require('./routes/authRoutes');
+const billingRoutes = require('./routes/billingRoutes');
+const surveyRoutes = require('./routes/surveyRoutes');
 
 mongoose.connect(keys.mongoURI, { useMongoClient: true });
 
