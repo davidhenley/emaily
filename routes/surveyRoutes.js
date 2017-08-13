@@ -3,9 +3,11 @@ const router = express.Router();
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
 const mongoose = require('mongoose');
-const Survey = mongoose.model('surveys');
+const Mailer = require('../services/Mailer');
+const Survey = mongoose.model('Survey');
+const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
-router.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+router.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
   const { title, subject, body, recipients } = req.body;
 
   const survey = new Survey({
@@ -15,6 +17,10 @@ router.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
     recipients: recipients.split(',').map(email => ({ email })),
     _user: req.user.id
   });
+
+  const mailer = new Mailer(survey, surveyTemplate(survey));
+
+  // await mailer.send();
 });
 
 router.get('/api/surveys', (req, res) => {

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const GoogleStrategy = require('passport-google-oauth20');
 const keys = require('../config/keys');
 
-const User = mongoose.model('users');
+const User = mongoose.model('User');
 
 passport.serializeUser((user, done) => {
   // Sends along the Mongo ID (Not the googleId)
