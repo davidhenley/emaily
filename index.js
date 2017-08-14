@@ -29,9 +29,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(authRoutes);
+app.use('/auth', authRoutes);
 app.use(billingRoutes);
-app.use(surveyRoutes);
+app.use('/api/surveys', surveyRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   // Make sure express will serve up production assets

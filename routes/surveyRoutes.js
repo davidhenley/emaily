@@ -7,7 +7,7 @@ const Mailer = require('../services/Mailer');
 const Survey = mongoose.model('Survey');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
-router.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
+router.post('/', requireLogin, requireCredits, async (req, res) => {
   const { title, subject, body, recipients } = req.body;
 
   const survey = new Survey({
@@ -31,8 +31,8 @@ router.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
   }
 });
 
-router.get('/api/surveys', (req, res) => {
-  res.send({ message: 'Survey Route' });
+router.get('/thanks', (req, res) => {
+  res.send('Thanks for voting!');
 });
 
 module.exports = router;

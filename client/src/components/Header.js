@@ -15,7 +15,7 @@ class Header extends Component {
         return [
           <li key="payBtn"><Payments /></li>,
           <li key="credits" style={{ margin: '0px 10px' }}>Credits: {auth.credits}</li>,
-          <li key="logout"><a href="/api/logout">Logout</a></li>
+          <li key="logout"><a href="/auth/logout">Logout</a></li>
         ];
     }
   }
