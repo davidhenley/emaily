@@ -13,7 +13,7 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run webhook\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-    "webhook": "./sendgrid_webhook.sh"
+    "webhook": "ngrok http 5000"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
-    "localtunnel": "^1.8.3",
+    "ngrok": "^2.2.17",
     "nodemon": "^1.11.0"
   }
 }
