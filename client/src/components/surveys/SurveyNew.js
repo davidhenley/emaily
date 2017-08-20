@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SurveyForm from './SurveyForm';
 import SurveyReview from './SurveyReview';
+import { reduxForm } from 'redux-form';
 
 class SurveyNew extends Component {
   state = {
@@ -31,4 +32,7 @@ class SurveyNew extends Component {
   }
 }
 
-export default SurveyNew;
+// Only here to destroy form values on unmount
+export default reduxForm({
+  form: 'surveyForm'
+})(SurveyNew);
