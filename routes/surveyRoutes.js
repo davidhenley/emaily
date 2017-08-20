@@ -31,6 +31,11 @@ router.post('/', requireLogin, requireCredits, async (req, res) => {
   }
 });
 
+router.post('/webhooks', (req, res) => {
+  console.log(req.body);
+  res.send({});
+});
+
 router.get('/thanks', (req, res) => {
   res.send('Thanks for voting!');
 });
