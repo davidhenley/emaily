@@ -36,7 +36,7 @@ router.post('/webhooks', (req, res) => {
   res.send({});
 });
 
-router.get('/thanks', (req, res) => {
+router.get('/:id/:choice', (req, res) => {
   res.send('Thanks for voting!');
 });
 
