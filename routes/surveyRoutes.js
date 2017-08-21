@@ -88,4 +88,12 @@ router.get('/:id/:choice', (req, res) => {
   res.send('Thanks for voting!');
 });
 
+router.delete('/delete/:id', async (req, res) => {
+  await Survey.deleteOne({ _id: req.params.id });
+  const surveys = await Survey.find({ _user: req.user.id }).sort({dateSent: -1}).select({
+    recipients: false
+  });
+  res.send(surveys);
+});
+
 module.exports = router;
