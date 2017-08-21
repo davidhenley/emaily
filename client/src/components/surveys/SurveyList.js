@@ -13,6 +13,7 @@ class SurveyList extends Component {
         <div className="card darken-1" key={i}>
           <div className="card-content">
             <span className="card-title">{survey.title}</span>
+            <p>{survey.from}</p>
             <p>{survey.body}</p>
             <p className="right">
               Sent On: {new Date(survey.dateSent).toLocaleDateString()}

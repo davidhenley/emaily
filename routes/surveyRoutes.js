@@ -19,11 +19,12 @@ router.get('/', requireLogin, async (req, res) => {
 });
 
 router.post('/', requireLogin, requireCredits, async (req, res) => {
-  const { title, subject, body, recipients } = req.body;
+  const { title, from, subject, body, recipients } = req.body;
 
   // Create a new survey while turning list of emails into array of objects
   const survey = new Survey({
     title,
+    from,
     subject,
     body,
     recipients: recipients.split(',').map(email => ({ email })),
