@@ -12,7 +12,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
 router.get('/', requireLogin, async (req, res) => {
   // Find all surveys that match the user, excluding recipients from query
-  const surveys = await Survey.find({ _user: req.user.id }).select({
+  const surveys = await Survey.find({ _user: req.user.id }).sort({dateSent: -1}).select({
     recipients: false
   });
   res.send(surveys);
