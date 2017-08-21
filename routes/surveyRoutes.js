@@ -11,9 +11,11 @@ const Survey = mongoose.model('Survey');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
 router.get('/', requireLogin, async (req, res) => {
-  // Find all surveys that match the user
-  const surveys = await Survey.find({ _user: req.user.id });
-  req.send(surveys);
+  // Find all surveys that match the user, excluding recipients from query
+  const surveys = await Survey.find({ _user: req.user.id }).select({
+    recipients: false
+  });
+  res.send(surveys);
 });
 
 router.post('/', requireLogin, requireCredits, async (req, res) => {
