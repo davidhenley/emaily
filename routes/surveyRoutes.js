@@ -10,9 +10,16 @@ const Mailer = require('../services/Mailer');
 const Survey = mongoose.model('Survey');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
+router.get('/', requireLogin, async (req, res) => {
+  // Find all surveys that match the user
+  const surveys = await Survey.find({ _user: req.user.id });
+  req.send(surveys);
+});
+
 router.post('/', requireLogin, requireCredits, async (req, res) => {
   const { title, subject, body, recipients } = req.body;
 
+  // Create a new survey while turning list of emails into array of objects
   const survey = new Survey({
     title,
     subject,
@@ -21,9 +28,11 @@ router.post('/', requireLogin, requireCredits, async (req, res) => {
     _user: req.user.id
   });
 
+  // Create new mailer passing the survey and template in
   const mailer = new Mailer(survey, surveyTemplate(survey));
 
   try {
+    // Send survey, save survey, deduct a credit from user, save user, send back user
     await mailer.send();
     await survey.save();
     req.user.credits -= 1;
@@ -35,29 +44,39 @@ router.post('/', requireLogin, requireCredits, async (req, res) => {
 });
 
 router.post('/webhooks', (req, res) => {
+  // Create path string to test
   const p = new Path('/api/surveys/:surveyId/:choice');
   const events = _.chain(req.body)
+    // Map over req.body and pull off url and email properties
     .map(({ url, email }) => {
+      // Test url to see if matches path regex
       const match = p.test(new URL(url).pathname);
       if (match) {
+        // If there is a match, return an object with the email, id, and choice
         const { surveyId, choice } = match;
         return { email, surveyId, choice };
       }
     })
+    // Remove all undefined
     .compact()
+    // Remove all duplicates
     .uniqBy('email', 'surveyId')
+    // For each object, pull off surveyid, email, choice
     .each(({ surveyId, email, choice }) => {
+      // Find that survey with the email and false responded
       Survey.updateOne({
         _id: surveyId,
         recipients: {
           $elemMatch: { email, responded: false }
         }
       }, {
+        // Increment choice by one, set responded to true and add date
         $inc: { [choice]: 1 },
         $set: { 'recipients.$.responded': true },
         lastResponded: new Date()
       }).exec();
     })
+    // Pull off array and send down chain to events
     .value();
 
   res.send({});
